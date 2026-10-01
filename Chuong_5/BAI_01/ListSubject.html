@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách môn học</title>
+</head>
+<body>
+    <h2>DANH SÁCH MÔN HỌC</h2>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên môn học</th>
+                <th>Nhà xuất bản</th>
+                <th>Tác giả</th>
+            </tr>
+        </thead>
+        <tbody id="danhsach"></tbody>
+    </table>
+    <script>
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+                var xmlDoc = this.responseXML;
+                var subjects = xmlDoc.getElementsByTagName("subject");
+                var html ="";
+                for(var i=0;i<subjects.length;i++){
+                    var title = subjects[i]
+                    .getElementsByTagName("title")[0]
+                    .textContent;
+
+                    var publisher = subjects[i]
+                    .getElementsByTagName("publisher")[0]
+                    .textContent;
+
+                    var author = subjects[i]
+                    .getElementsByTagName("author")[0]
+                    .textContent;
+
+                    html += "<tr>";
+                    html += "<td>" + (i+1) + "</td>";
+                    html += "<td>" + title + "</td>";
+                    html += "<td>" + publisher + "</td>";
+                    html += "<td>" + author + "</td>";
+                    html += "</tr>";
+                }
+                document.getElementById("danhsach").innerHTML = html;
+            }     
+           }
+           xhttp.open("GET", "dsmonhoc.xml", true);
+           xhttp.send();
+
+    </script>
+</body>
+</html>

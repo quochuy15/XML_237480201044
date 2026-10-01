@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách giảng viên</title>
+</head>
+
+<body>
+
+<h2>DANH SÁCH GIẢNG VIÊN</h2>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>STT</th>
+        <th>Họ tên giảng viên</th>
+        <th>Ngành</th>
+        <th>Đơn vị</th>
+    </tr>
+
+    <tbody id="danhsach"></tbody>
+</table>
+
+<script>
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+            var xmlDoc = this.responseXML;
+            var giangviens = xmlDoc.getElementsByTagName("giangvien");
+
+            var html = "";
+
+            for (var i = 0; i < giangviens.length; i++) {
+
+                var hoten = giangviens[i]
+                    .getElementsByTagName("hoten")[0]
+                    .textContent;
+
+                var nganh = giangviens[i]
+                    .getElementsByTagName("nganh")[0]
+                    .textContent;
+
+                var donvi = giangviens[i]
+                    .getElementsByTagName("donvi")[0]
+                    .textContent;
+
+                html += "<tr>";
+                html += "<td>" + (i + 1) + "</td>";
+                html += "<td>" + hoten + "</td>";
+                html += "<td>" + nganh + "</td>";
+                html += "<td>" + donvi + "</td>";
+                html += "</tr>";
+            }
+
+            document.getElementById("danhsach").innerHTML = html;
+        }
+    };
+
+    xhttp.open("GET", "hosogiangvien.xml", true);
+    xhttp.send();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách môn học</title>
+</head>
+
+<body>
+
+<h2>CÁC MÔN HỌC CÓ NHÀ XUẤT BẢN MINH KHAI</h2>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>STT</th>
+        <th>Tên môn học</th>
+        <th>Nhà xuất bản</th>
+        <th>Tác giả</th>
+    </tr>
+
+    <tbody id="danhsach"></tbody>
+</table>
+
+<script>
+var xhttp = new XMLHttpRequest();
+
+xhttp.onload = function() {
+
+    var xmlDoc = this.responseXML;
+    var subjects = xmlDoc.getElementsByTagName("subject");
+
+    var html = "";
+    var stt = 1;
+
+    for (var i = 0; i < subjects.length; i++) {
+
+        var title = subjects[i].getElementsByTagName("title")[0].textContent;
+        var publisher = subjects[i].getElementsByTagName("publisher")[0].textContent;
+        var author = subjects[i].getElementsByTagName("author")[0].textContent;
+
+        if (publisher.trim() == "Minh Khai") {
+
+            html += "<tr>";
+            html += "<td>" + stt + "</td>";
+            html += "<td>" + title + "</td>";
+            html += "<td>" + publisher + "</td>";
+            html += "<td>" + author + "</td>";
+            html += "</tr>";
+
+            stt++;
+        }
+    }
+
+    document.getElementById("danhsach").innerHTML = html;
+};
+
+xhttp.open("GET", "dsmonhoc.xml", true);
+xhttp.send();
+</script>
+
+</body>
+</html>
